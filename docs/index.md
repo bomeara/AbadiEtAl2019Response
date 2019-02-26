@@ -9,11 +9,11 @@ My first impression on looking at some of their data was that their empirical tr
 
 
 
-Number of taxa in trees in Open Tree Of Life database (one per study) and number of taxa on Abadi et al. (2019). The median number of taxa in the Abadi et al. empirical trees was 9 (5, 86.6), while the median number in Open Tree of Life was 50 (8, 427.7) [numbers in parentheses are the 95% range of trees].
+Number of taxa in trees in Open Tree Of Life database (one per study) and number of taxa on Abadi et al. (2019). The median number of taxa in the Abadi et al. empirical trees was 10 (4, 94), while the median number in Open Tree of Life was 50 (8, 427.7) [numbers in parentheses are the 95% range of trees].
 
 ![Number of taxa in empirical trees in this study vs. Open Tree of Life](figure/summary1-1.png)
 
-The data set sizes are small, too. Here are the number of taxa and number of sites (median number of sites is 250 (100, 1999.9)).
+The data set sizes are small, too. Here are the number of taxa and number of sites (median number of sites is 881 (186, 5739)).
 
 ![Distribution of dataset sizes](figure/scatterplot-1.png)
 
