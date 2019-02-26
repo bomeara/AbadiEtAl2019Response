@@ -14,8 +14,12 @@ Number of taxa in trees in Open Tree Of Life database (one per study) and number
 
 ![plot of chunk summary1](figure/summary1-1.png)
 
+The data set sizes are small, too. Here are the number of taxa and number of sites (250 (100, 1999.9)).
+
 ![plot of chunk scatterplot](figure/scatterplot-1.png)
 
-We can also compare distances of trees from different tree inference methods and models with those from GTR+I+G. If that model is good enough without having to select, then maybe things like UPGMA are good enough. Or trees using fewer characters.
+We can also compare Robinson-Foulds distances of trees from different tree inference methods and models with those from GTR+I+G with the full dataset (since I couldn't find the "true tree", I'm using distance to the tree with the best model as a measure of how good these other models are). If that model is good enough without having to select, then maybe things like UPGMA are good enough, or trees using fewer characters (just 100 and 250 characters, for example). Based on these results, you sacrifice something by giving up models entirely to use BioNJ or to have small datasets, but not much -- even though in reality we work hard to get large datasets and use somewhat realistic models.
 
 ![plot of chunk summary2](figure/summary2-1.png)
+
+It certainly seems that some models
