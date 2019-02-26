@@ -14,6 +14,8 @@ summarizeData <- function(dir="c3") {
 		if(!is.null(local_run)) {
 			result <- plyr::rbind.fill(result, local_run)
 			save(result, file="docs/results.rda")
+			write.csv(result, file="docs/results.csv")
+			system("git commit -m'data caching'; git push")
 		}
 
 	}
@@ -29,11 +31,17 @@ summarizeData <- function(dir="c3") {
 #' @export
 runTree <- function(infile) {
 	dna <- ape::read.dna(file=infile)
+	dna_100 <- dna[,sample.int(n=ncol(dna), size=100, replace=TRUE)]
+	ape::write.dna(dna_100, file=paste0(infile, "_100"))
+	dna_250 <- dna[,sample.int(n=ncol(dna), size=250, replace=TRUE)]
+	ape::write.dna(dna_250, file=paste0(infile, "_100"))
 	bionj_tree <- ape::bionj(ape::dist.dna(dna))
 	upgma_tree <- phangorn::upgma(dna)
 	jc_tree <- runPhyml(infile, model=" -m JC69 -f m")
 	gtr_ig_tree <- runPhyml(infile, model=" -m GTR -f m -v e -a e")
-	result <- data.frame(ntax=nrow(dna), nsites=ncol(dna), pars_inf_count=ips::pis(dna, what="absolute"), pars_inf_fraction=ips::pis(dna, what="fraction"), bionj=ape::write.tree(bionj_tree), upgma=ape::write.tree(upgma_tree), jc=ape::write.tree(jc_tree), gtrig=ape::write.tree(gtr_ig_tree))
+	gtr_ig_tree_100 <- runPhyml(paste0(infile, "_100"), model=" -m GTR -f m -v e -a e")
+	gtr_ig_tree_250 <- runPhyml(paste0(infile, "_250"), model=" -m GTR -f m -v e -a e")
+	result <- data.frame(ntax=nrow(dna), nsites=ncol(dna), pars_inf_count=ips::pis(dna, what="absolute"), pars_inf_fraction=ips::pis(dna, what="fraction"), bionj=ape::write.tree(bionj_tree), upgma=ape::write.tree(upgma_tree), jc=ape::write.tree(jc_tree), gtrig=ape::write.tree(gtr_ig_tree), gtrig100 = ape::write.tree(gtr_ig_tree_100), gtrig250 = ape::write.tree(gtr_ig_tree_250))
 	return(result)
 }
 
