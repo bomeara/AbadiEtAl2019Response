@@ -15,7 +15,7 @@ summarizeData <- function(dir="c3", maxtree=Inf, treesearch=TRUE) {
 	result <- data.frame()
 	for (file_index in seq_along(files)) {
 		local_run <- NULL
-		try(local_run <- runTree(paste0("data/",dir, "/", files[file_index])))
+		try(local_run <- runTree(paste0("data/",dir, "/", files[file_index]), treesearch=treesearch))
 		if(!is.null(local_run)) {
 			result <- plyr::rbind.fill(result, local_run)
 			#save(result, file="docs/results.rda")
