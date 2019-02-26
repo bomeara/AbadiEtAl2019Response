@@ -10,9 +10,11 @@ My first impression on looking at some of their data was that their empirical tr
 
 
 
-Number of taxa in trees in Open Tree Of Life database (one per study) and number of taxa on Abadi et al. (2019). The median number of taxa in the Abadi et al. empirical trees were 9 (95% CI: 5, 86.6), while the median number in Open Tree of Life were 50 (95% CI: 8, 427.7).
+Number of taxa in trees in Open Tree Of Life database (one per study) and number of taxa on Abadi et al. (2019). The median number of taxa in the Abadi et al. empirical trees was 9 (5, 86.6), while the median number in Open Tree of Life was 50 (8, 427.7) [numbers in parentheses are the 95% range of trees].
 
 ![plot of chunk summary1](figure/summary1-1.png)
+
+![plot of chunk scatterplot](figure/scatterplot-1.png)
 
 We can also compare distances of trees from different tree inference methods and models with those from GTR+I+G. If that model is good enough without having to select, then maybe things like UPGMA are good enough. Or trees using fewer characters.
 
