@@ -10,3 +10,5 @@ Downloaded from https://osf.io/vx9dh/, copied into data/empirical directory.
 Use phyml: `brew install brewsci/bio/phyml`
 
 Then `source("make.R")` inside R to run analyses and generate the tree
+
+You can see results at https://bomeara.github.io/AbadiEtAl2019Response/.
