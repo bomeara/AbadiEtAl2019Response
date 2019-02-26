@@ -16,5 +16,7 @@ output: md_document
 ```
 
 ```{r summary1, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}
-plot()
+plot(x=range(c(otol_density$x, empirical_density$x)), y=range(c(otol_density$y, empirical_density$y)), type="n", log="x", xlab="Number of taxa", ylab="Proportion of trees", bty="n")
+lines(otol_density, col="red")
+lines(empirical_density, col="black")
 ```
