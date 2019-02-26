@@ -28,6 +28,6 @@ We can also compare distances of trees from different tree inference methods and
 ```{r summary2, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}
 treetree_distances <- data.frame(distance = c(c3_tree_summary$g_b, c3_tree_summary$g_u, c3_tree_summary$g_jc, c3_tree_summary$g_g100, c3_tree_summary$g_g250), approach=c(rep("BioNJ", nrow(c3_tree_summary)), rep("UPGMA", nrow(c3_tree_summary)), rep("Jukes-Cantor", nrow(c3_tree_summary)), rep("GTR+I+G 100 sites", nrow(c3_tree_summary)), rep("GTR+I+G 250 sites", nrow(c3_tree_summary))))
 p <- ggplot(treetree_distances, aes(x=approach, y=distance)) +
-  geom_violin(trim=FALSE) + stat_summary(fun.data=mean_sdl, mult=1, geom="pointrange", color="red")
+  geom_violin(trim=FALSE) + stat_summary(fun.data=mean_sdl, geom="pointrange", color="red")
 p
 ```
