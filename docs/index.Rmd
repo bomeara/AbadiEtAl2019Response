@@ -5,7 +5,7 @@ output: md_document
 ---
 
 
-```{r summary, echo=FALSE, message=FALSE}
+```{r summary, echo=FALSE, message=FALSE, warning=FALSE}
  drake::loadd(empirical_summary)
  drake::loadd(c3_tree_summary)
  drake::loadd(otol_summary)
@@ -18,7 +18,7 @@ output: md_document
 
 Number of taxa in trees in Open Tree Of Life database (one per study) in red; size of empirical trees in Abadi et al. (2019) in black.
 
-```{r summary1, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}
+```{r summary1, echo=FALSE, message=FALSE, fig.width=12, fig.height=12, warning=FALSE}
 # plot(x=range(c(otol_density$x, empirical_density$x)), y=range(c(otol_density$y, empirical_density$y)), type="n", log="x", xlab="Number of taxa", ylab="Proportion of trees", bty="n")
 # lines(otol_density, col="red")
 # lines(empirical_density, col="black")
@@ -28,7 +28,7 @@ p
 
 We can also compare distances of trees from different tree inference methods and models with those from GTR+I+G. If that model is good enough without having to select, then maybe things like UPGMA are good enough. Or trees using fewer characters.
 
-```{r summary2, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}
+```{r summary2, echo=FALSE, message=FALSE, fig.width=12, fig.height=12, warning=FALSE}
 treetree_distances <- data.frame(distance = c(c3_tree_summary$g_b, c3_tree_summary$g_u, c3_tree_summary$g_jc, c3_tree_summary$g_g100, c3_tree_summary$g_g250), approach=c(rep("BioNJ", nrow(c3_tree_summary)), rep("UPGMA", nrow(c3_tree_summary)), rep("Jukes-Cantor", nrow(c3_tree_summary)), rep("GTR+I+G 100 sites", nrow(c3_tree_summary)), rep("GTR+I+G 250 sites", nrow(c3_tree_summary))))
 p <- ggplot(treetree_distances, aes(x=approach, y=distance)) +
   geom_violin(trim=FALSE) + stat_summary(fun.data=mean_sdl, geom="pointrange", color="red")

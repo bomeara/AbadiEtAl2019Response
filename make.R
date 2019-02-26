@@ -7,4 +7,7 @@ knitr::opts_knit$set(base.dir = "docs")
 
 source("R/functions.R") # Load all the functions into your environment.
 source("R/plan.R")      # Build your workflow plan data frame.
+
+drake::clean("report", "pdf_report", "commit_and_push_result")
+
 make(report)
