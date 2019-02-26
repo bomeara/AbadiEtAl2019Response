@@ -18,7 +18,7 @@ The data set sizes are small, too. Here are the number of taxa and number of sit
 
 ![Distribution of dataset sizes](figure/scatterplot-1.png)
 
-We can also compare Robinson-Foulds distances of trees from different tree inference methods and models with those from GTR+I+G with the full dataset (since I couldn't find the "true tree", I'm using distance to the tree with the best model as a measure of how good these other models are). If that model is good enough without having to select, then maybe things like UPGMA are good enough, or trees using fewer characters (just 100 and 250 characters, for example). Based on these results, you sacrifice something by giving up models entirely to use BioNJ or to have small datasets, but not much -- even though in reality we work hard to get large datasets and use somewhat realistic models.
+We can also compare Robinson-Foulds distances of trees from different tree inference methods and models with those from GTR+I+G with the full dataset (since I couldn't find the "true tree", I'm using distance to the tree with the best model as a measure of how good these other models are). If that model is good enough without having to select, then maybe things like UPGMA are good enough, or trees using fewer characters (just 100 and 250 characters, for example). Based on these results, you sacrifice something by giving up models entirely to use BioNJ or to have small datasets, but not much (and the standard error includes zero difference) -- even though in reality we work hard to get large datasets and use somewhat realistic models.
 
 ![Distances to the GTR+I+G tree inferred with phyml and all data](figure/summary2-1.png)
 
