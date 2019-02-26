@@ -14,7 +14,7 @@ Number of taxa in trees in Open Tree Of Life database (one per study) and number
 
 ![Number of taxa in empirical trees in this study vs. Open Tree of Life](figure/summary1-1.png)
 
-The data set sizes are small, too. Here are the number of taxa and number of sites (250 (100, 1999.9)).
+The data set sizes are small, too. Here are the number of taxa and number of sites (median number of sites is 250 (100, 1999.9)).
 
 ![Distribution of dataset sizes](figure/scatterplot-1.png)
 
