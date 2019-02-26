@@ -9,6 +9,9 @@ output: md_document
  drake::loadd(empirical_summary)
  drake::loadd(c3_tree_summary)
  drake::loadd(otol_summary)
+ otol_density <- density(otol_summary$ntax, na.rm=TRUE)
+ otol_density$y <- otol_density$y/sum(otol_density$y)
+ empirical_density <- density(empirical_summary$ntax)
 ```
 
 ```{r summary1, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}

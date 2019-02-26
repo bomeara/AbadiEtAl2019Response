@@ -8,7 +8,10 @@
 #' @return A data.frame with info on each data set
 #' @export
 summarizeData <- function(dir="c3", maxtree=Inf, treesearch=TRUE) {
-  files <- list.files(paste0("data/",dir), pattern="*phy")[1:maxtree]
+  files <- list.files(paste0("data/",dir), pattern="*phy")
+  if(is.finite(maxtree)) {
+    files <- files[1:maxtree]
+  }
 	result <- data.frame()
 	for (file_index in seq_along(files)) {
 		local_run <- NULL
