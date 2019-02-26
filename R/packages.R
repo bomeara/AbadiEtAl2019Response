@@ -1,1 +1,5 @@
+library(drake)
 library(ape)
+library(knitr)
+library(rmarkdown)
+library(kableExtra)
