@@ -1,6 +1,8 @@
 report <- drake_plan(
-  data_summary = summarizeData(maxtree=5),
-  tree_summary = treetree(data_summary),
+  c3_summary = summarizeData(maxtree=5),
+  c3_tree_summary = treetree(c3_summary),
+  empirical_summary = summarizeData(dir="empirical", treesearch=FALSE),
+  otol_summary = otol_trees(),
   report = knitr::knit(drake::knitr_in("docs/index.Rmd"), drake::file_out("docs/index.md"), quiet = TRUE),
   pdf_report = render_pdf("index.md", "index.pdf", "docs", report)
 )

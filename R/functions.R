@@ -3,9 +3,11 @@
 #' Data set size, complexity, etc.
 #'
 #' @param dir The directory to pull in
+#' @param maxtree How many of the available trees to pull in
+#' @param treesearch Boolean on whether to tree search or not
 #' @return A data.frame with info on each data set
 #' @export
-summarizeData <- function(dir="c3", maxtree=Inf) {
+summarizeData <- function(dir="c3", maxtree=Inf, treesearch=TRUE) {
   files <- list.files(paste0("data/",dir), pattern="*phy")[1:maxtree]
 	result <- data.frame()
 	for (file_index in seq_along(files)) {
@@ -27,21 +29,31 @@ summarizeData <- function(dir="c3", maxtree=Inf) {
 #' Gets phyml tree, bionj, etc.
 #'
 #' @param infile The file to pull in (include path)
+#' @param treesearch Boolean on whether to tree search or not
 #' @return data.frame of the trees and other info
 #' @export
-runTree <- function(infile) {
+runTree <- function(infile, treesearch=TRUE) {
 	dna <- ape::read.dna(file=infile)
-	dna_100 <- dna[,sample.int(n=ncol(dna), size=100, replace=TRUE)]
-	ape::write.dna(dna_100, file=paste0(infile, "_100"))
-	dna_250 <- dna[,sample.int(n=ncol(dna), size=250, replace=TRUE)]
-	ape::write.dna(dna_250, file=paste0(infile, "_250"))
-	bionj_tree <- ape::bionj(ape::dist.dna(dna))
-	upgma_tree <- phangorn::upgma(dna)
-	jc_tree <- runPhyml(infile, model=" -m JC69 -f m")
-	gtr_ig_tree <- runPhyml(infile, model=" -m GTR -f m -v e -a e")
-	gtr_ig_tree_100 <- runPhyml(paste0(infile, "_100"), model=" -m GTR -f m -v e -a e")
-	gtr_ig_tree_250 <- runPhyml(paste0(infile, "_250"), model=" -m GTR -f m -v e -a e")
-	result <- data.frame(ntax=nrow(dna), nsites=ncol(dna), pars_inf_count=ips::pis(dna, what="absolute"), pars_inf_fraction=ips::pis(dna, what="fraction"), bionj=ape::write.tree(bionj_tree), upgma=ape::write.tree(upgma_tree), jc=ape::write.tree(jc_tree), gtrig=ape::write.tree(gtr_ig_tree), gtrig100 = ape::write.tree(gtr_ig_tree_100), gtrig250 = ape::write.tree(gtr_ig_tree_250))
+
+  bionj_tree <- NA
+  upgma_tree <- NA
+  jc_tree <- NA
+  gtr_ig_tree <- NA
+  gtr_ig_tree_100 <- NA
+  gtr_ig_tree_250 <- NA
+  if(treesearch) {
+  	dna_100 <- dna[,sample.int(n=ncol(dna), size=100, replace=TRUE)]
+  	ape::write.dna(dna_100, file=paste0(infile, "_100"))
+  	dna_250 <- dna[,sample.int(n=ncol(dna), size=250, replace=TRUE)]
+  	ape::write.dna(dna_250, file=paste0(infile, "_250"))
+  	bionj_tree <- ape::write.tree(ape::bionj(ape::dist.dna(dna)))
+  	upgma_tree <- ape::write.tree(phangorn::upgma(dna))
+  	jc_tree <- ape::write.tree(runPhyml(infile, model=" -m JC69 -f m"))
+  	gtr_ig_tree <- ape::write.tree(runPhyml(infile, model=" -m GTR -f m -v e -a e"))
+  	gtr_ig_tree_100 <- ape::write.tree(runPhyml(paste0(infile, "_100"), model=" -m GTR -f m -v e -a e"))
+  	gtr_ig_tree_250 <- ape::write.tree(runPhyml(paste0(infile, "_250"), model=" -m GTR -f m -v e -a e"))
+  }
+	result <- data.frame(ntax=nrow(dna), nsites=ncol(dna), pars_inf_count=ips::pis(dna, what="absolute"), pars_inf_fraction=ips::pis(dna, what="fraction"), bionj=bionj_tree, upgma=upgma_tree, jc=jc_tree, gtrig=gtr_ig_tree, gtrig100 = gtr_ig_tree_100, gtrig250 = gtr_ig_tree_250)
 	return(result)
 }
 
@@ -101,4 +113,29 @@ treetree <- function(treeSummary) {
     try(treeSummary$g_g250[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$gtr_ig_tree_250[i])))
   }
   return(treeSummary)
+}
+
+#' Get OpenTree tree sizes
+#'
+#' @return data.frame with tree sizes
+#' @export
+otol_trees <- function() {
+  all_trees <- rotl::studies_find_trees(property="is_deprecated", value="false")
+  tree_ids <- all_trees$match_tree_ids
+  only_first <- function(x) {
+    return(strsplit(x, ",")[[1]][1])
+  }
+  for (i in seq_along(tree_ids)) {
+    tree_ids[i] <- only_first(tree_ids[i])
+  }
+  tree_info <- data.frame(study_id = all_trees$study_ids, tree_id=tree_ids, ntax=NA, nnode=NA, stringsAsFactors=FALSE)
+  for (i in seq_along(tree_ids)) {
+    phy <- NULL
+    try(phy <- rotl::get_study_tree(tree_info$study_id[i], tree_info$tree_id[i]))
+    if(!is.null(phy)) {
+      tree_info$ntax[i] <- ape::Ntip(phy)
+      tree_info$nnode[i] <- ape::Nnode(phy)
+    }
+  }
+  return(tree_info)
 }
