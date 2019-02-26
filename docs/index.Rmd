@@ -1,6 +1,5 @@
 ---
 title: "Impressions of Abadi et al. (2019)"
-author: Brian O'Meara
 output: md_document
 ---
 
@@ -47,4 +46,6 @@ p
 
 Based on all this, it seems to me that this work does indeed show that going through model selection on small trees, using models that top out at GTR+I+G in complexity, may not be needed since GTR+I+G will be chosen much of the time (which echos [Kelchner & Thomas' (2007)](https://doi.org/10.1016/j.tree.2006.10.004) [empirical result](https://www.sciencedirect.com/science/article/pii/S016953470600334X#fig3)). However, it might be premature to declare that model selection on the trees and datasets that are orders of magnitude larger than the ones they simulated is unnecessary.
 
-These are my **preliminary impressions** after playing with their results. Note I also have a stake in developing models that go somewhat beyond GTR+I+G (paper in press) so I'm not an objective observer. However, given what we know about long branch attraction, the risks of model misspecification, and so forth, I wouldn't want to advice students to skip model selection, especially given large, heterogeneous datasets.
+These are my **preliminary impressions** after playing with their results. Note I also have a stake in developing models that go somewhat beyond GTR+I+G (paper in press) so I'm not an objective observer. However, given what we know about long branch attraction, the risks of model misspecification, and so forth, I wouldn't want to advise students to skip model selection, especially given large, heterogeneous datasets. But I'm really glad this paper was published -- we need more of this testing of our cultural practices in phylogenetics.
+
+Brian O'Meara
