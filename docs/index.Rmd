@@ -15,6 +15,8 @@ output: md_document
  empirical_density$y <- empirical_density$y/sum(empirical_density$y)
 ```
 
+Number of taxa in trees in Open Tree Of Life database (one per study) in red; size of empirical trees in Abadi et al. (2019) in black.
+
 ```{r summary1, echo=FALSE, message=FALSE, fig.width=12, fig.height=12}
 plot(x=range(c(otol_density$x, empirical_density$x)), y=range(c(otol_density$y, empirical_density$y)), type="n", log="x", xlab="Number of taxa", ylab="Proportion of trees", bty="n")
 lines(otol_density, col="red")
