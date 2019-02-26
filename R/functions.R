@@ -18,9 +18,9 @@ summarizeData <- function(dir="c3", maxtree=Inf, treesearch=TRUE) {
 		try(local_run <- runTree(paste0("data/",dir, "/", files[file_index])))
 		if(!is.null(local_run)) {
 			result <- plyr::rbind.fill(result, local_run)
-			save(result, file="docs/results.rda")
-			write.csv(result, file="docs/results.csv")
-			system("git commit -m'data caching' -a; git push")
+			#save(result, file="docs/results.rda")
+			#write.csv(result, file="docs/results.csv")
+			#system("git commit -m'data caching' -a; git push")
 		}
 
 	}
