@@ -11,8 +11,7 @@ Number of taxa in trees in Open Tree Of Life database (one per study) in red; si
 
 
 ```
-## Warning in xy.coords(x, y, xlabel, ylabel, log): 1 x value <= 0 omitted
-## from logarithmic plot
+## Warning: Removed 11 rows containing non-finite values (stat_density).
 ```
 
 ![plot of chunk summary1](figure/summary1-1.png)
