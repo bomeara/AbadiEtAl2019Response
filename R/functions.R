@@ -51,10 +51,10 @@ runTree <- function(infile, treesearch=TRUE) {
   	ape::write.dna(dna_250, file=paste0(infile, "_250"))
   	bionj_tree <- ape::write.tree(ape::bionj(ape::dist.dna(dna)))
   	upgma_tree <- ape::write.tree(phangorn::upgma(dna))
-  	jc_tree <- ape::write.tree(runPhyml(infile, model=" -m JC69 -f m"))
-  	gtr_ig_tree <- ape::write.tree(runPhyml(infile, model=" -m GTR -f m -v e -a e"))
-  	gtr_ig_tree_100 <- ape::write.tree(runPhyml(paste0(infile, "_100"), model=" -m GTR -f m -v e -a e"))
-  	gtr_ig_tree_250 <- ape::write.tree(runPhyml(paste0(infile, "_250"), model=" -m GTR -f m -v e -a e"))
+  	jc_tree <- ape::write.tree(runPhyml(infile, model=" -m JC69 -f m --leave_duplicates"))
+  	gtr_ig_tree <- ape::write.tree(runPhyml(infile, model=" -m GTR -f m -v e -a e --leave_duplicates"))
+  	gtr_ig_tree_100 <- ape::write.tree(runPhyml(paste0(infile, "_100"), model=" -m GTR -f m -v e -a e --leave_duplicates"))
+  	gtr_ig_tree_250 <- ape::write.tree(runPhyml(paste0(infile, "_250"), model=" -m GTR -f m -v e -a e --leave_duplicates"))
   }
 	result <- data.frame(ntax=nrow(dna), nsites=ncol(dna), pars_inf_count=ips::pis(dna, what="absolute"), pars_inf_fraction=ips::pis(dna, what="fraction"), bionj=bionj_tree, upgma=upgma_tree, jc=jc_tree, gtrig=gtr_ig_tree, gtrig100 = gtr_ig_tree_100, gtrig250 = gtr_ig_tree_250)
 	return(result)
@@ -72,11 +72,13 @@ runTree <- function(infile, treesearch=TRUE) {
 #' @param model Model settings for phyml
 #' @return Inferred tree
 #' @export
-runPhyml <- function(infile, model=" -m JC69 -f m") {
+runPhyml <- function(infile, model=" -m JC69 -f m --leave_duplicates") {
 	system(paste0("phyml -i ", infile, model))
 	phy <- ape::read.tree(paste0(infile, '_phyml_tree.txt'))
 	system(paste0("rm ", paste0(infile, '_phyml_tree.txt')))
 	system(paste0("rm ", paste0(infile, '_phyml_stats.txt')))
+  system(paste0("rm *phy_100"))
+  system(paste0("rm *phy_250"))
 	return(phy)
 }
 
@@ -101,19 +103,18 @@ render_pdf <- function(file_in, file_out, dir, placeholder) {
 #' @return data.frame with tree-tree distances
 #' @export
 treetree <- function(treeSummary) {
-  result <- treeSummary
   treeSummary$g_b <- NA
   treeSummary$g_u <- NA
   treeSummary$g_jc <- NA
   treeSummary$g_g100 <- NA
   treeSummary$g_g250 <- NA
   for (i in sequence(nrow(treeSummary))) {
-    gtrig_tree <- ape::read.tree(text=treeSummary$gtrig[i])
-    try(treeSummary$g_b[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$bionj[i])))
-    try(treeSummary$g_u[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$upgma[i])))
-    try(treeSummary$g_jc[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$jc[i])))
-    try(treeSummary$g_g100[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$gtrig100[i])))
-    try(treeSummary$g_g250[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=treeSummary$gtr_ig_tree_250[i])))
+    gtrig_tree <- ape::read.tree(text=as.character(treeSummary$gtrig[i]))
+    try(treeSummary$g_b[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=as.character(treeSummary$bionj[i]))))
+    try(treeSummary$g_u[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=as.character(treeSummary$upgma[i]))))
+    try(treeSummary$g_jc[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=as.character(treeSummary$jc[i]))))
+    try(treeSummary$g_g100[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=as.character(treeSummary$gtrig100[i]))))
+    try(treeSummary$g_g250[i] <- phangorn::RF.dist(gtrig_tree, ape::read.tree(text=as.character(treeSummary$gtrig250[i]))))
   }
   return(treeSummary)
 }
@@ -143,4 +144,13 @@ otol_trees <- function() {
     }
   }
   return(tree_info)
+}
+
+#' Try commit and push
+#'
+#' @param ... Absorb parameters
+#' @return nothing
+#' @export
+commit_and_push <- function(...) {
+  try(system("git commit -m'updating report' -a; git push"))
 }
