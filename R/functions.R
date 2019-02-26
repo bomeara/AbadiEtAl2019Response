@@ -15,7 +15,7 @@ summarizeData <- function(dir="c3") {
 			result <- plyr::rbind.fill(result, local_run)
 			save(result, file="docs/results.rda")
 			write.csv(result, file="docs/results.csv")
-			system("git commit -m'data caching'; git push")
+			system("git commit -m'data caching' -a; git push")
 		}
 
 	}
@@ -34,7 +34,7 @@ runTree <- function(infile) {
 	dna_100 <- dna[,sample.int(n=ncol(dna), size=100, replace=TRUE)]
 	ape::write.dna(dna_100, file=paste0(infile, "_100"))
 	dna_250 <- dna[,sample.int(n=ncol(dna), size=250, replace=TRUE)]
-	ape::write.dna(dna_250, file=paste0(infile, "_100"))
+	ape::write.dna(dna_250, file=paste0(infile, "_250"))
 	bionj_tree <- ape::bionj(ape::dist.dna(dna))
 	upgma_tree <- phangorn::upgma(dna)
 	jc_tree <- runPhyml(infile, model=" -m JC69 -f m")
