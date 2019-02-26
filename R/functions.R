@@ -117,6 +117,8 @@ treetree <- function(treeSummary) {
 
 #' Get OpenTree tree sizes
 #'
+#' Note we're getting just one tree per study
+#'
 #' @return data.frame with tree sizes
 #' @export
 otol_trees <- function() {
